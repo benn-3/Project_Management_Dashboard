@@ -1,0 +1,52 @@
+
+.existing-projects-container {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgb(243, 240, 240);
+}
+
+h1 {
+  text-align: center;
+  color: #4CAF50;
+  margin-bottom: 30px;
+}
+
+.project {
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(68, 168, 14, 0.703);
+}
+
+.project h3 {
+  font-size: 24px;
+  color: #333;
+}
+
+.project p {
+  font-size: 16px;
+  color: #555;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #ff7043;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #ff5722;
+}
+
+button:focus {
+  outline: none;
+}

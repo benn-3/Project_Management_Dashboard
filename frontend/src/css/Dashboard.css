@@ -1,0 +1,39 @@
+.dashboard-container {
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.project-overview {
+  margin-top: 30px;
+}
+
+.projects-list {
+  margin-top: 20px;
+}
+
+.projects-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.projects-list li {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+button {
+  margin-right: 10px;
+}
+
+input {
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 100%;
+  max-width: 300px;
+  margin-right: 10px;
+}
