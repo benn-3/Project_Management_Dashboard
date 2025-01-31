@@ -16,7 +16,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:3001/signup', { username, firstname, lastname, email, password });
+      await axios.post('https://project-management-dashboard-p4tx.onrender.com/signup', { username, firstname, lastname, email, password });
       alert('Signup successful! Please login.');
       navigate('/login'); // Redirect to login page
     } catch (error) {
