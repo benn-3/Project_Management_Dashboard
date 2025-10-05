@@ -5,16 +5,41 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import ProjectOverview from './components/ProjectOverview';
 import ExistingProjects from './components/ExistingProjects';
+import Layout from './components/Layout'; // Import the new Layout
 
 const App = () => {
   return (
     <Router>
       <Routes>
+        {/* Public routes (no layout) */}
         <Route path="/" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/project-overview" element={<ProjectOverview />} />
-        <Route path="/existing-projects" element={<ExistingProjects />} />
+
+        {/* Protected routes (with layout) */}
+        <Route
+          path="/dashboard"
+          element={
+            <Layout>
+              <Dashboard />
+            </Layout>
+          }
+        />
+        <Route
+          path="/project-overview"
+          element={
+            <Layout>
+              <ProjectOverview />
+            </Layout>
+          }
+        />
+        <Route
+          path="/existing-projects"
+          element={
+            <Layout>
+              <ExistingProjects />
+            </Layout>
+          }
+        />
       </Routes>
     </Router>
   );
