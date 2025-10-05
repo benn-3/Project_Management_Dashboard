@@ -1,4 +1,3 @@
-
 // const express = require("express");
 // const mongoose = require("mongoose");
 // const dotenv = require("dotenv");
@@ -115,8 +114,15 @@ app.get("/projects", async (req, res) => {
 // User Signup endpoint
 app.post("/signup", async (req, res) => {
   try {
-    const { username, firstname, lastname, email, password } = req.body;
-    const newUser = new User({ username, firstname, lastname, email, password });
+    const { username, firstname, lastname, email, password, role } = req.body;
+    const newUser = new User({
+      username,
+      firstname,
+      lastname,
+      email,
+      password,
+      role: role || 'user' // <-- Save role, default to 'user'
+    });
     await newUser.save();
     res.status(201).json({ message: "Signup successful!" });
   } catch (error) {
@@ -131,7 +137,7 @@ app.post("/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email, password });
     if (user) {
-      res.status(200).json({ message: "Login successful!" });
+      res.status(200).json({ message: "Login successful!", role: user.role }); // <-- Return role
     } else {
       res.status(401).json({ message: "Incorrect email or password" });
     }

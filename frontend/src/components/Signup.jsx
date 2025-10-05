@@ -10,6 +10,7 @@ const Signup = () => {
   const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('');
   const navigate = useNavigate();
 
   const handleNext = (e) => {
@@ -25,7 +26,7 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://project-management-dashboard-p4tx.onrender.com/signup', { username, firstname, lastname, email, password });
+      await axios.post('https://project-management-dashboard-p4tx.onrender.com/signup', { username, firstname, lastname, email, password, role });
       alert('Signup successful! Please login.');
       navigate('/login');
     } catch (error) {
@@ -43,7 +44,7 @@ const Signup = () => {
           <p className="brand-desc">Organize your projects, tasks, and teams efficiently.</p>
         </div>
         <h2>Create Account</h2>
-        <form onSubmit={step === 5 ? handleSignup : handleNext} className="signup-form">
+        <form onSubmit={step === 6 ? handleSignup : handleNext} className="signup-form">
           {step === 1 && (
             <>
               <label htmlFor="username">Username</label>
@@ -124,7 +125,27 @@ const Signup = () => {
               />
               <div className="button-group">
                 <button className="prev-btn" onClick={handlePrev}>Previous</button>
-                <button className="submit-btn" type="submit" disabled={!password}>Sign Up</button>
+                <button className="next-btn" type="submit" disabled={!password}>Next</button>
+              </div>
+            </>
+          )}
+          {step === 6 && (
+            <>
+              <label htmlFor="role">Role</label>
+              <select
+                id="role"
+                value={role}
+                onChange={e => setRole(e.target.value)}
+                required
+              >
+                <option value="">Select Role</option>
+                <option value="user">User</option>
+                <option value="manager">Manager</option>
+                <option value="admin">Admin</option>
+              </select>
+              <div className="button-group">
+                <button className="prev-btn" onClick={handlePrev}>Previous</button>
+                <button className="submit-btn" type="submit" disabled={!role}>Sign Up</button>
               </div>
             </>
           )}

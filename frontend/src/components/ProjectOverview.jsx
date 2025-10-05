@@ -9,14 +9,16 @@ const ProjectOverview = () => {
   const [teamMembers, setTeamMembers] = useState('');
   const [roles, setRoles] = useState('');
   const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleCreateProject = async () => {
+  const handleCreateProject = async (e) => {
+    e.preventDefault();
     if (!projectName || !projectDescription) {
       alert('Please fill in all fields!');
       return;
     }
-
+    setLoading(true);
     const newProject = {
       name: projectName,
       description: projectDescription,
@@ -24,62 +26,60 @@ const ProjectOverview = () => {
       roles,
       progress,
     };
-
     try {
-      const response = await axios.post('https://project-management-dashboard-p4tx.onrender.com/createProject', newProject);
-      console.log('Response:', response.data);
+      await axios.post('https://project-management-dashboard-p4tx.onrender.com/createProject', newProject);
       alert('Project Created Successfully!');
-      navigate('/existing-projects'); 
+      navigate('/existing-projects');
     } catch (error) {
-      console.error('Error creating project:', error.response ? error.response.data : error.message);
       alert('Failed to create project');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="project-overview-container">
       <h1>Create New Project</h1>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <label>Project Name:</label>
+      <form onSubmit={handleCreateProject}>
+        <label>Project Name</label>
         <input
           type="text"
           value={projectName}
-          onChange={(e) => setProjectName(e.target.value)}
+          onChange={e => setProjectName(e.target.value)}
           required
         />
-
-        <label>Project Description:</label>
+        <label>Project Description</label>
         <textarea
           value={projectDescription}
-          onChange={(e) => setProjectDescription(e.target.value)}
+          onChange={e => setProjectDescription(e.target.value)}
           required
         />
-
-        <label>Assign Team Members:</label>
+        <label>Team Members (comma separated)</label>
         <input
           type="text"
           value={teamMembers}
-          onChange={(e) => setTeamMembers(e.target.value)}
+          onChange={e => setTeamMembers(e.target.value)}
+          placeholder="e.g. Alice, Bob, Charlie"
         />
-
-        <label>Assign Roles:</label>
+        <label>Roles (comma separated)</label>
         <input
           type="text"
           value={roles}
-          onChange={(e) => setRoles(e.target.value)}
+          onChange={e => setRoles(e.target.value)}
+          placeholder="e.g. Developer, Designer"
         />
-
-        <label>Progress:</label>
+        <label>Progress</label>
         <input
           type="range"
           min="0"
           max="100"
           value={progress}
-          onChange={(e) => setProgress(e.target.value)}
+          onChange={e => setProgress(e.target.value)}
         />
         <span>{progress}%</span>
-
-        <button onClick={handleCreateProject}>Create Project</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Creating..." : "Create Project"}
+        </button>
       </form>
     </div>
   );

@@ -11,7 +11,8 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://project-management-dashboard-p4tx.onrender.com/login', { email, password });
+      const res = await axios.post('/login', { email, password });
+      localStorage.setItem('role', res.data.role); // Store role
       alert('Login successful!');
       navigate('/dashboard');
     } catch (error) {
