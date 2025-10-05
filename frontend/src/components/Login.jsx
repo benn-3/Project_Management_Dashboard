@@ -7,6 +7,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('user');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -35,7 +36,34 @@ const Login = () => {
           <label htmlFor="email">Email</label>
           <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
           <label htmlFor="password">Password</label>
-          <input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+          <div style={{ position: "relative" }}>
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+              style={{ paddingRight: "40px" }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "8px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "#4f8cff",
+                fontWeight: 700
+              }}
+              tabIndex={-1}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
           <label htmlFor="role">Role</label>
           <select id="role" value={role} onChange={e => setRole(e.target.value)} required>
             <option value="user">User</option>
