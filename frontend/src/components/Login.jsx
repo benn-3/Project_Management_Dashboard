@@ -6,17 +6,18 @@ import '../css/Login.css';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('user');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/login', { email, password });
+      const res = await axios.post('/login', { email, password, role });
       localStorage.setItem('role', res.data.role); // Store role
       alert('Login successful!');
       navigate('/dashboard');
     } catch (error) {
-      alert('Incorrect email or password');
+      alert('Incorrect email, password, or role');
     }
   };
 
@@ -35,6 +36,12 @@ const Login = () => {
           <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
           <label htmlFor="password">Password</label>
           <input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+          <label htmlFor="role">Role</label>
+          <select id="role" value={role} onChange={e => setRole(e.target.value)} required>
+            <option value="user">User</option>
+            <option value="manager">Manager</option>
+            <option value="admin">Admin</option>
+          </select>
           <button type="submit">Login</button>
         </form>
         <div className="switch-link">

@@ -134,15 +134,14 @@ app.post("/signup", async (req, res) => {
 // User Login endpoint
 app.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email, password });
+    const { email, password, role } = req.body;
+    const user = await User.findOne({ email, password, role });
     if (user) {
-      res.status(200).json({ message: "Login successful!", role: user.role }); // <-- Return role
+      res.status(200).json({ message: "Login successful!", role: user.role });
     } else {
-      res.status(401).json({ message: "Incorrect email or password" });
+      res.status(401).json({ message: "Incorrect email, password, or role" });
     }
   } catch (error) {
-    console.error('Error during login:', error); // Log the error for debugging
     res.status(500).json({ message: "Error during login", error });
   }
 });
