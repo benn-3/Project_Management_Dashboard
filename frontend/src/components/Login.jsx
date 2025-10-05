@@ -3,6 +3,30 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import '../css/Login.css';
 
+const EyeOpen = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M3 12c0-4.418 3.582-8 8-8 2.485 0 4.735 1.086 6.293 2.707M21 12c0 4.418-3.582 8-8 8-2.485 0-4.735-1.086-6.293-2.707M3 3l18 18M3 21L21 3"
+    />
+  </svg>
+);
+
+const EyeClosed = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M3 12c0 4.418 3.582 8 8 8 2.485 0 4.735-1.086 6.293-2.707M21 12c0-4.418-3.582-8-8-8-2.485 0-4.735 1.086-6.293 2.707M1 1l22 22M1 23L23 1"
+    />
+  </svg>
+);
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -56,12 +80,12 @@ const Login = () => {
                 background: "none",
                 border: "none",
                 cursor: "pointer",
-                color: "#4f8cff",
-                fontWeight: 700
+                padding: 0
               }}
               tabIndex={-1}
+              aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? EyeClosed : EyeOpen}
             </button>
           </div>
           <label htmlFor="role">Role</label>
