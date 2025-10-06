@@ -10,7 +10,17 @@ const EyeOpen = () => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2}
-      d="M3 12c0-4.418 3.582-8 8-8 2.485 0 4.735 1.086 6.293 2.707M21 12c0 4.418-3.582 8-8 8-2.485 0-4.735-1.086-6.293-2.707M3 3l18 18M3 21L21 3"
+      d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"
+    />
+    <circle
+      cx="12"
+      cy="12"
+      r="3"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
     />
   </svg>
 );
@@ -22,7 +32,14 @@ const EyeClosed = () => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2}
-      d="M3 12c0 4.418 3.582 8 8 8 2.485 0 4.735-1.086 6.293-2.707M21 12c0-4.418-3.582-8-8-8-2.485 0-4.735 1.086-6.293 2.707M1 1l22 22M1 23L23 1"
+      d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"
+    />
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M3 3l18 18"
     />
   </svg>
 );
@@ -33,12 +50,13 @@ const Login = () => {
   const [role, setRole] = useState('user');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/login', { email, password, role });
-      localStorage.setItem('role', res.data.role); // Store role
+      const res = await axios.post(`${API_BASE_URL}/login`, { email, password, role });
+      localStorage.setItem('role', res.data.role);
       alert('Login successful!');
       navigate('/dashboard');
     } catch (error) {
@@ -67,25 +85,30 @@ const Login = () => {
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
-              style={{ paddingRight: "40px" }}
+              style={{ paddingRight: "44px" }}
+              autoComplete="current-password"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               style={{
                 position: "absolute",
-                right: "8px",
                 top: "50%",
+                right: "12px",
                 transform: "translateY(-50%)",
                 background: "none",
                 border: "none",
                 cursor: "pointer",
-                padding: 0
+                padding: 0,
+                height: "24px",
+                width: "24px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center"
               }}
-              tabIndex={-1}
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              {showPassword ? EyeClosed : EyeOpen}
+              {showPassword ? <EyeOpen /> : <EyeClosed />}
             </button>
           </div>
           <label htmlFor="role">Role</label>
@@ -98,7 +121,7 @@ const Login = () => {
         </form>
         <div className="switch-link">
           Don't have an account?
-          <Link to="/">Sign Up</Link>
+          <Link to="/signup">Sign Up</Link>
         </div>
       </div>
     </div>

@@ -6,13 +6,14 @@ import Dashboard from './components/Dashboard';
 import ProjectOverview from './components/ProjectOverview';
 import ExistingProjects from './components/ExistingProjects';
 import Layout from './components/Layout'; // Import the new Layout
+import About from './components/About'; // Import the About component
 
 const App = () => {
   return (
     <Router>
       <Routes>
         {/* Public routes (no layout) */}
-        <Route path="/" element={<Signup />} />
+        <Route path="/" element={<About />} /> {/* Use About component for the root route */}
         <Route path="/login" element={<Login />} />
 
         {/* Protected routes (with layout) */}

@@ -3,6 +3,49 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import '../css/Signup.css';
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+const EyeOpen = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"
+    />
+    <circle
+      cx="12"
+      cy="12"
+      r="3"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </svg>
+);
+
+const EyeClosed = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"
+    />
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M3 3l18 18"
+    />
+  </svg>
+);
+
 const Signup = () => {
   const [step, setStep] = useState(1);
   const [username, setUsername] = useState('');
@@ -27,7 +70,7 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://project-management-dashboard-p4tx.onrender.com/signup', { username, firstname, lastname, email, password, role });
+      await axios.post(`${API_BASE_URL}/signup`, { username, firstname, lastname, email, password, role });
       alert('Signup successful! Please login.');
       navigate('/login');
     } catch (error) {
@@ -37,7 +80,18 @@ const Signup = () => {
 
   return (
     <div className="signup-bg">
-      <div className="signup-card">
+      <div
+        className="signup-card"
+        style={{
+          background: "white",
+          borderRadius: "12px",
+          boxShadow: "0 2px 16px rgba(0,0,0,0.12)",
+          padding: "32px",
+          maxWidth: "400px",
+          margin: "40px auto",
+          color: "#222"
+        }}
+      >
         {/* Branding */}
         <div className="brand">
           <img src="https://cdn-icons-png.flaticon.com/512/9068/9068679.png" alt="Logo" className="brand-logo" />
@@ -124,25 +178,29 @@ const Signup = () => {
                   onChange={e => setPassword(e.target.value)}
                   required
                   autoFocus
-                  style={{ paddingRight: "40px" }}
+                  style={{ paddingRight: "44px" }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   style={{
                     position: "absolute",
-                    right: "8px",
                     top: "50%",
+                    right: "12px",
                     transform: "translateY(-50%)",
                     background: "none",
                     border: "none",
                     cursor: "pointer",
-                    color: "#4f8cff",
-                    fontWeight: 700
+                    padding: 0,
+                    height: "24px",
+                    width: "24px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
                   }}
-                  tabIndex={-1}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? "Hide" : "Show"}
+                  {showPassword ? <EyeOpen /> : <EyeClosed />}
                 </button>
               </div>
               <div className="button-group">
@@ -182,3 +240,13 @@ const Signup = () => {
 };
 
 export default Signup;
+
+/* If the page is not loading, check your router setup:
+Example (in App.jsx or wherever your routes are defined):
+
+import Signup from './components/Signup';
+...
+<Route path="/signup" element={<Signup />} />
+
+Also, ensure there are no typos in the import path and that Signup.jsx is in the correct folder.
+*/
