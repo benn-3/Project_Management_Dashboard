@@ -5,44 +5,55 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import ProjectOverview from './components/ProjectOverview';
 import ExistingProjects from './components/ExistingProjects';
-import Layout from './components/Layout'; // Import the new Layout
-import About from './components/About'; // Import the About component
+import Layout from './components/Layout';
+import About from './components/About';
+import PrivateRoute from './components/PrivateRoute';
+import { AuthProvider } from './contexts/AuthContext';
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        {/* Public routes (no layout) */}
-        <Route path="/" element={<About />} /> {/* Use About component for the root route */}
-        <Route path="/login" element={<Login />} />
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* Public routes (no layout) */}
+          <Route path="/" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
 
-        {/* Protected routes (with layout) */}
-        <Route
-          path="/dashboard"
-          element={
-            <Layout>
-              <Dashboard />
-            </Layout>
-          }
-        />
-        <Route
-          path="/project-overview"
-          element={
-            <Layout>
-              <ProjectOverview />
-            </Layout>
-          }
-        />
-        <Route
-          path="/existing-projects"
-          element={
-            <Layout>
-              <ExistingProjects />
-            </Layout>
-          }
-        />
-      </Routes>
-    </Router>
+          {/* Protected routes (with layout) */}
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Layout>
+                  <Dashboard />
+                </Layout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/project-overview"
+            element={
+              <PrivateRoute>
+                <Layout>
+                  <ProjectOverview />
+                </Layout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/existing-projects"
+            element={
+              <PrivateRoute>
+                <Layout>
+                  <ExistingProjects />
+                </Layout>
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext';
 import '../css/ProjectOverview.css';
 
 const ProjectOverview = () => {
@@ -11,6 +12,7 @@ const ProjectOverview = () => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { token } = useAuth();
 
   const handleCreateProject = async (e) => {
     e.preventDefault();
@@ -22,12 +24,14 @@ const ProjectOverview = () => {
     const newProject = {
       name: projectName,
       description: projectDescription,
-      teamMembers,
-      roles,
-      progress,
+      teamMembers: teamMembers ? teamMembers.split(',').map(m => m.trim()) : [],
+      roles: roles ? roles.split(',').map(r => r.trim()) : [],
+      progress: parseInt(progress),
     };
     try {
-      await axios.post('https://project-management-dashboard-p4tx.onrender.com/createProject', newProject);
+      await axios.post('http://localhost:3000/createProject', newProject, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       alert('Project Created Successfully!');
       navigate('/existing-projects');
     } catch (error) {
@@ -54,14 +58,14 @@ const ProjectOverview = () => {
           onChange={e => setProjectDescription(e.target.value)}
           required
         />
-        <label>Team Members (comma separated)</label>
+        <label>Team Members (comma separated, optional)</label>
         <input
           type="text"
           value={teamMembers}
           onChange={e => setTeamMembers(e.target.value)}
           placeholder="e.g. Alice, Bob, Charlie"
         />
-        <label>Roles (comma separated)</label>
+        <label>Roles (comma separated, optional)</label>
         <input
           type="text"
           value={roles}
